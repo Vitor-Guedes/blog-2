@@ -1,0 +1,7 @@
+FROM node:latest
+
+WORKDIR /var/www/frontend
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

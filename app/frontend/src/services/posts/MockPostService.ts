@@ -1,0 +1,57 @@
+import { PostStrategy, Post, User } from "./PostStrategy";
+
+export class MockPostService implements PostStrategy {
+    async getPosts(): Promise<Post[]> {
+        return []
+    }
+
+    async getPostBySlug(slug: string): Promise<Post> {
+        const user: User =  {
+            email: "user@gmail.com",
+            name: "Guedes"
+        };
+        const post: Post = {
+            title: "Titulo de Teste Mockado",
+            slug: slug,
+            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vehicula non augue ac cursus. Vivamus interdum ipsum nec neque dictum tincidunt. Pellentesque auctor mauris vitae sem tempor, vel dignissim nulla consequat. Praesent egestas massa quis nisl luctus, a tempor mauris commodo. Pellentesque et elementum turpis, pharetra pharetra dui. Praesent erat est, lacinia et posuere vel, finibus id leo. Aliquam rhoncus iaculis leo, id semper felis vestibulum eu. Quisque ac lacus massa. Phasellus non maximus tortor. Mauris accumsan eu quam quis consectetur. Sed quis pulvinar ipsum. Donec tincidunt leo a velit dignissim ullamcorper. Sed sed magna lacinia, interdum mauris et, ornare metus. Aenean consectetur tempus mi, dignissim vestibulum dui suscipit a. Nunc nec pharetra ipsum. Ut pulvinar, augue ut consectetur pellentesque, nisi ipsum dignissim arcu, pulvinar sodales augue felis eu massa. Morbi volutpat mauris ut egestas pretium. Phasellus fermentum placerat velit. Vivamus venenatis ultricies porta. Curabitur eget tellus augue. Nulla posuere eros orci, non congue dolor rutrum pharetra. Quisque at aliquet est, ac viverra lacus. Duis ac fermentum eros. Quisque vitae mattis leo. Etiam non nibh non justo sollicitudin fermentum ut quis odio. Nunc congue ante et dui condimentum convallis. Nunc a venenatis turpis. Ut a rhoncus urna, id feugiat massa. Sed rutrum, eros quis interdum tristique, turpis augue molestie dui, auctor vestibulum dolor enim eget lacus. Morbi convallis dui in congue aliquet. Mauris eu tellus facilisis, sagittis nibh ut, condimentum tortor. Aliquam erat volutpat. Nunc fermentum elementum turpis, in sodales orci. Vivamus at semper velit. Cras ligula nisl, consectetur in ultrices vel, vehicula rutrum diam. Pellentesque ac ipsum a nisi lacinia egestas ut quis nibh. Curabitur eget urna euismod, varius diam eget, pharetra odio. Curabitur ornare orci a orci congue mollis. Vivamus sollicitudin rutrum suscipit. Sed massa augue, bibendum non mollis in, malesuada nec lacus. Etiam semper mi nec ligula ornare ultrices. Maecenas efficitur consequat velit nec venenatis. Etiam tincidunt pretium imperdiet. Pellentesque lobortis, nunc vitae imperdiet interdum, arcu leo interdum libero, a convallis magna mi non arcu. Ut sollicitudin varius enim ac posuere. Vestibulum diam metus, tempor nec tellus ac, pellentesque luctus tellus. Nam interdum nisi ac odio ultricies, non auctor velit efficitur. Nullam faucibus eu velit non tincidunt. Nullam nec mattis orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc vestibulum suscipit enim sed ornare. Sed malesuada fringilla est, vitae tincidunt enim venenatis id.",
+            created_at: "2025-08-20",
+            updated_at: "2025-08-20",
+            user: user,
+            tags: [
+                {
+                    code: "desenvolvimento",
+                    label: "Desenvolvimento"
+                },
+                {
+                    code: "nextjs",
+                    label: "Next.js"
+                },
+                {
+                    code: "autodidata",
+                    label: "Autodidata"
+                },
+                {
+                    code: "react",
+                    label: "React"
+                },
+                {
+                    code: "teste",
+                    label: "Teste"
+                },
+                {
+                    code: "frontend",
+                    label: "Frontend"
+                },
+                {
+                    code: "tailwindcss",
+                    label: "TailwindCss"
+                },
+                {
+                    code: "fullstack",
+                    label: "Fullstack"
+                },
+            ]
+        };
+        return post;
+    }
+}

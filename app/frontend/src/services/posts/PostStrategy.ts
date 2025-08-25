@@ -18,8 +18,18 @@ export type Post = {
     tags: Tag[]
 }
 
+export type ApiResponse = {
+    successful: boolean,
+    message?: string
+}
+
+
 export interface PostStrategy {
     getPosts(): Promise<Post[]>;
 
     getPostBySlug(slug: string): Promise<Post>;
+
+    getPostsByUser(user: User): Promise<Post[]>;
+
+    authenticate(credentials: object): Promise<ApiResponse>;
 }

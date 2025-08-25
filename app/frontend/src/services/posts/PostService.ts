@@ -1,4 +1,4 @@
-import { PostStrategy, Post } from "./PostStrategy";
+import { PostStrategy, Post, ApiResponse, User } from "./PostStrategy";
 import { MockPostService } from "./MockPostService";
 import { ApiBackendPostService } from "./ApiBackendPostService";
 
@@ -7,7 +7,7 @@ export class PostService {
     private strategy: PostStrategy;
 
     constructor() {
-        const useMock = process.env.USE_MOCK === "true";
+        const useMock = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
         this.strategy = useMock
             ? new MockPostService
@@ -20,5 +20,13 @@ export class PostService {
 
     async getPostBySlug(slug: string): Promise<Post> {
         return this.strategy.getPostBySlug(slug);
+    }
+
+    async getPostsByUser(user: User): Promise<Post[]> {
+        return this.strategy.getPostsByUser(user);
+    }
+
+    async authenticate(credentials: object): Promise<ApiResponse> {
+        return this.strategy.authenticate(credentials);
     }
 }

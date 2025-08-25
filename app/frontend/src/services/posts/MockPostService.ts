@@ -1,27 +1,52 @@
-import fs from "fs";
-import path from "path";
-import { PostStrategy, Post, User } from "./PostStrategy";
+import { PostStrategy, Post, ApiResponse, User } from "./PostStrategy";
 
 export class MockPostService implements PostStrategy {
-    async getPosts(): Promise<Post[]> {
-        const filepath = path.join(process.cwd(), "mocks", "posts.json");
-        const content = fs.readFileSync(filepath, "utf-8");
+    private baseurl: string;
 
-        const posts: Post[] = JSON.parse(content);
+    constructor () {
+        this.baseurl = process.env.NEXT_PUBLIC_API_MOCK || '';
+    }
+
+    async getPosts(): Promise<Post[]> {
+        const response = await fetch(this.baseurl + '/api/posts', {
+            method: 'GET'
+        });
+        const result = await response.json();
+
+        let posts: Post[] = [];
+
+        if (result.successful) {
+            posts = result.data;
+        }
+
         return posts;
     }
 
     async getPostBySlug(slug: string): Promise<Post> {
-        const filepath = path.join(process.cwd(), "mocks", "posts.json");
-        const content = fs.readFileSync(filepath, "utf-8");
+        const response = await fetch(this.baseurl + `/api/posts/${slug}`, {
+            method: 'GET'
+        });
+        const result = await response.json();
 
-        const posts: Post[] = JSON.parse(content);
-        const post = posts.find(post => post.slug === slug);
-
-        if (! post) {
+        if (! result.successful) {
             throw new Error(`Publicação não encontrada`);
         }
+        
+        return result.data;
+    }
 
-        return post;
+    async getPostsByUser(user: User): Promise<Post[]> {
+        return this.getPosts();
+    }
+
+    async authenticate(credentials: object): Promise<ApiResponse> {
+        const response = await fetch(this.baseurl + '/api/authenticate', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        });
+        return await response.json();
     }
 }

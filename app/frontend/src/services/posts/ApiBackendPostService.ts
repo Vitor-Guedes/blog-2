@@ -1,4 +1,4 @@
-import { PostStrategy, Post, User } from "./PostStrategy";
+import { PostStrategy, Post, User, ApiResponse } from "./PostStrategy";
 
 export class ApiBackendPostService implements PostStrategy {
     async getPosts(): Promise<Post[]> {
@@ -20,5 +20,16 @@ export class ApiBackendPostService implements PostStrategy {
             tags: []
         };
         return post;
+    }
+
+    async getPostsByUser(user: User): Promise<Post[]> {
+        return [];
+    }
+
+    async authenticate(credentials: object): Promise<ApiResponse> {
+        return {
+            successful: false,
+            message: ""
+        };
     }
 }

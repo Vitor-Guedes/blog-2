@@ -32,4 +32,18 @@ export class ApiBackendPostService implements PostStrategy {
             message: ""
         };
     }
+
+    async store(data: object, user: User): Promise<ApiResponse> {
+        return {
+            successful: false,
+            message: ""
+        }
+    }
+
+    async update(slug: string, payload: Post, user:User): Promise<ApiResponse> {
+        return {
+            successful: false,
+            message: ""
+        }
+    }
 }

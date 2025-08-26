@@ -7,7 +7,7 @@ export async function GET(
     request: Request,
     {params} : { params: { slug: string } }
 ) {
-    const { slug } = params;
+    const { slug } = await params;
     const filepath = path.join(process.cwd(), "mocks", "posts.json");
     const content = fs.readFileSync(filepath, "utf-8");
 

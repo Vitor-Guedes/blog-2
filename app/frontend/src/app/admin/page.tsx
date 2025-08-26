@@ -21,7 +21,7 @@ export default function Page() {
         const result = await postService.authenticate(credentials);
         
         if (result.successful || undefined) {
-            router.push('/dashboard');
+            return router.push('/admin/dashboard');
         }
 
         setError(result.message || "Error");

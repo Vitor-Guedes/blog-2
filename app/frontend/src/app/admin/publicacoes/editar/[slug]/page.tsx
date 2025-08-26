@@ -1,22 +1,27 @@
 'use client';
 
 import { PostService } from "@/services/posts/PostService";
-import { User } from "@/services/posts/PostStrategy";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { Post, User } from "@/services/posts/PostStrategy";
+import { useParams, useRouter } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function Page() {
+    const params = useParams();
+    const slug = params.slug as string ?? "";
+    const postService = new PostService();
+    const [post, setPost] = useState<Post>({title: "", slug: "", content: "", created_at: "", updated_at: ""});
     const [error, setError] = useState("");
     const [isChecked, setIsChecked] = useState(false);
-    const [title, setTitle] = useState("");
-    const [slug, setSlug] = useState("");
-    const [content, setContent] = useState("");
     const router = useRouter();
     const user: User = {
         name: "",
         email: ""
     };
 
+    useEffect(() => {
+        postService.getPostBySlug(slug).then(_post => { setPost(_post) })
+    }, [slug]);
+    
     function slugify(slug: string): string {
         return slug
             .toLocaleLowerCase()
@@ -28,21 +33,20 @@ export default function Page() {
 
     const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
         const title = event.target.value;
-        setTitle(title);
-        setSlug(slugify(title));
+        setPost((previous) => ({
+            ...previous,
+            title: title
+        }));
+        setPost((previous) => ({
+            ...previous,
+            slug: slugify(slugify(title))
+        }));
     }
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async function (event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         
-        const postService = new PostService();
-        const payload = {
-            title: title,
-            slug: slug,
-            content: content,
-            published: isChecked
-        };
-        const result = await postService.store(payload, user);
+        const result = await postService.update(slug, post, user);
         
         if (result.successful) {
             return router.push('/admin/dashboard');
@@ -78,7 +82,7 @@ export default function Page() {
                                         <input id="title" 
                                             type="text" 
                                             name="title"
-                                            value={title}
+                                            value={post.title || ""}
                                             onChange={handleChangeTitle}
                                             className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" 
                                         />
@@ -95,7 +99,7 @@ export default function Page() {
                                             type="text" 
                                             name="slug"
                                             disabled
-                                            value={slug}
+                                            value={post.slug || ""}
                                             className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" 
                                         />
                                     </div>
@@ -109,8 +113,8 @@ export default function Page() {
                                     <div className="mt-2">
                                         <textarea id="content" 
                                             name="content"
-                                            value={content}
-                                            onChange={(event) => setContent(event.target.value)}
+                                            value={post.content || ""}
+                                            onChange={(event) => { setPost((previous) => ({...previous, content: event.target.value})) }}
                                             className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" 
                                         >
                                         </textarea>

@@ -49,4 +49,29 @@ export class MockPostService implements PostStrategy {
         });
         return await response.json();
     }
+
+    async store(data: object, user: User): Promise<ApiResponse> {
+        const response = await fetch(this.baseurl + '/api/posts/store', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        return await response.json();
+    }
+
+    async update(slug: string, payload: Post, user: User): Promise<ApiResponse> {
+         const response = await fetch(this.baseurl + '/api/posts/update', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                slug: slug,
+                payload: payload
+            })
+        });
+        return await response.json();
+    }
 }

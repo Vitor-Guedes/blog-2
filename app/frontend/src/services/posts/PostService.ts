@@ -29,4 +29,12 @@ export class PostService {
     async authenticate(credentials: object): Promise<ApiResponse> {
         return this.strategy.authenticate(credentials);
     }
+
+    async store(data: object, user: User): Promise<ApiResponse> {
+        return this.strategy.store(data, user);
+    }
+
+    async update(slug: string, payload: Post, user:User): Promise<ApiResponse> {
+        return this.strategy.update(slug, payload, user);
+    }
 }

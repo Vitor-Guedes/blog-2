@@ -12,10 +12,10 @@ export type Post = {
     title: string,
     slug: string,
     content: string,
-    created_at: string,
-    updated_at: string,
-    user: User,
-    tags: Tag[]
+    created_at?: string,
+    updated_at?: string,
+    user?: User,
+    tags?: Tag[]
 }
 
 export type ApiResponse = {
@@ -32,4 +32,8 @@ export interface PostStrategy {
     getPostsByUser(user: User): Promise<Post[]>;
 
     authenticate(credentials: object): Promise<ApiResponse>;
+
+    store(data: object, user: User): Promise<ApiResponse>;
+
+    update(slug: string, payload: Post, user:User): Promise<ApiResponse>;
 }

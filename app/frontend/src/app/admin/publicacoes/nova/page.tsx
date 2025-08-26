@@ -1,5 +1,6 @@
 'use client';
 
+import AdminMenu from "@/components/admin/Menu";
 import { PostService } from "@/services/posts/PostService";
 import { User } from "@/services/posts/PostStrategy";
 import { useRouter } from "next/navigation";
@@ -54,18 +55,16 @@ export default function Page() {
     }
 
     return (
-        <div className="h-screen w-2xl mx-auto mt-5">
-            <h2 className="2xl">
-                Nova Publicação
-            </h2>
+        <div className="flex flex-col w-4xl mx-auto mt-5">
+            <AdminMenu url="#" title="Nova Publicação"/>
 
-            <div className="h-screen rounded-xl w-2xl mx-auto">
+            <div className="w-full px-2 mx-auto">
 
                 <form onSubmit={handleSubmit}>
 
                     <div className="space-y-12">
 
-                        <div className="border-b border-white/10 pb-12">
+                        <div className="">
 
                             <div className="mt-5 grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-6">
 
@@ -131,6 +130,9 @@ export default function Page() {
                                     <button type="submit" className="rounded-md bg-gray-500 hover:bg-gray-800 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                                         Salvar
                                     </button>
+                                    <a href="/admin/dashboard" className="rounded-md bg-gray-500 hover:bg-gray-800 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                                        Voltar
+                                    </a>
                                 </div>
 
                                 <div className="sm:col-span-12">
